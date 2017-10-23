@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lucky Number</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="text-center">{{title}}</h1>
+    <div class="alert alert-success" *ngIf="success"> <b>SUCCESS !</b> Congratulations you are lucky one.</div>
+    <div class="alert alert-danger" *ngIf="error"> <b>Error !</b> You have already found your lucky number.</div>
+  </div>
+</div>
+<div class="container">
+ <form (ngSubmit)="onSubmit()" #numForm="ngForm">
+   <div class="form-group">
+      <div class="alert alert-warning" *ngIf="lnum < range.min || lnum > range.max">
+        <strong>Warning!</strong> Input range is [{{range.min}} - {{range.max}}]
+      </div>
+     <label for="lnum">Number:</label>
+     <input type="number" class="form-control" id="lnum" [(ngModel)]="lnum" placeholder="Enter your lucky number" name="lnum" min="{{range.min}}" max="{{range.max}}" required>
+   </div>
+   <button type="submit" class="btn btn-default" [disabled]="!numForm.form.valid || (lnum < range.min || lnum > range.max)" (click)="entryLnum(lnum)">Submit</button>
+ </form>
+ <div *ngIf="total > 0">
+    <h2>Tries: {{total}}</h2>
+  <table class="table">
+    <tr>
+      <td><h2>Time</h2></td>
+      <td><h2>Entry</h2></td>
+      <td><h2>Status</h2></td>
+    </tr>
+    <tr *ngFor="let x of logs">
+        <td>{{x.time | date}}</td>
+        <td>{{x.entry}}</td>
+        <td>{{x.status}}</td>
+    </tr>
+  </table>
+ </div>
+</div>
+</body>
+</html>
